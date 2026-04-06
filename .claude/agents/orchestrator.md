@@ -4,7 +4,8 @@ description: "Drives the plan → issue → PR lifecycle. Creates plans, dispatc
 tools: Read, Write, Edit, Bash, Grep, Glob, Agent
 permissionMode: bypassPermissions
 model: opus
-effort: high
+modelMaxContext: 1000000
+effort: max
 skills:
   - workflow
   - onboard
@@ -42,7 +43,7 @@ The user gives you one of:
 ### For planning
 
 1. Read the workflow skill's Step 1
-2. Create the plan at `.lgtm/shared/plans/p{N}-{slug}/PLAN.md` using `templates/plan.md`
+2. Create the plan at `.lgtm/shared/plans/p{N}-{slug}/PLAN.md`
 3. If the user approves, proceed to issue creation (Step 2)
 
 ### For issue creation

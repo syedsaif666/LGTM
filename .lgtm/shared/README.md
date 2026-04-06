@@ -1,1 +1,0 @@
-AI and User's Shared Space.

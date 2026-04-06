@@ -35,4 +35,4 @@ When a contribution is **reconciled**, it means one of:
 
 ## History
 
-Daily logs: `.claude/logs/YYYY-MM-DD/LOG.md`
+Daily logs: `.lgtm/ai/logs/YYYY-MM-DD/LOG.md`

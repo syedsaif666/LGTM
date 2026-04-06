@@ -136,7 +136,7 @@ Commits explain **why**, not what. No conventional-commit prefixes. No `Co-Autho
 
 `.lgtm/STATUS.md` is the single status dashboard — initiative health, project progress, active work, and a table for unplanned contributions that arrive outside the plan/issue pipeline.
 
-Daily logs go to `.claude/logs/YYYY-MM-DD/LOG.md`, appended by the `log-entry.py` script with real timestamps.
+Daily logs go to `.lgtm/ai/logs/YYYY-MM-DD/LOG.md`, appended by the `log-entry.py` script with real timestamps.
 
 ## Getting started
 
