@@ -32,19 +32,19 @@ Read these files to understand the rules:
 - `.lgtm/STATUS.md` — current initiative status
 - `.claude/CLAUDE.md` — conventions, key dependencies
 
-### Step 2: Ground in the codebase
+### Step 2: Ground in existing files
 
-For each area the plan touches, read the actual source files. Do not write specs
+For each area the plan touches, read the actual files. Do not write specs
 from the plan text alone. Verify:
 - Files mentioned in the plan actually exist at those paths
-- APIs, functions, and patterns referenced are current (use `/docs` skill if unsure about a library)
-- The proposed change is feasible given the current code structure (use `/assess-feasibility` for risky changes)
-- If entering an unfamiliar area of the codebase, use `/codebase-onboarding` to map it first
+- References to existing work (structure, content, data, APIs) are current
+- The proposed change is feasible given the current structure (use `/assess-feasibility` for risky changes)
+- If entering an unfamiliar area of the workspace, use `/codebase-onboarding` to map it first
 
 ### Step 3: Extract issues
 
 From the plan, identify each discrete issue. For each one determine:
-- Is it an agent issue (code change) or a human issue (manual steps)?
+- Is it an agent issue (file changes) or a human issue (manual steps)?
 - What files does it touch? (agent issues only — verify paths exist)
 - What are the dependencies? (which issues must merge first)
 - What could go wrong? Flag as open questions.
@@ -59,7 +59,7 @@ For each issue, write a file to `{output-directory}/{issue-id}.md` using the for
 
 ## Issue file format
 
-### Agent issue (code change)
+### Agent issue (file changes)
 
 ```markdown
 # {issue-id}: {short title}
@@ -85,7 +85,7 @@ For each issue, write a file to `{output-directory}/{issue-id}.md` using the for
 
 ## Implementation
 
-{Specific code changes, patterns to follow, or steps to take.
+{Specific changes, patterns to follow, or steps to take.
 Include enough detail that an agent with zero context can execute.}
 
 ## Test Cases
@@ -95,7 +95,7 @@ Include enough detail that an agent with zero context can execute.}
 
 ## Acceptance Criteria
 
-- [ ] Build passes with zero errors
+- [ ] Verification checks pass
 - [ ] {specific verification steps}
 
 ## Open Questions
@@ -142,7 +142,7 @@ If empty, this issue is ready to execute.}
 - One file per issue. Never combine multiple issues.
 - Issue IDs use the format `P{N}M{M}-{NNN}` (e.g., P4M3-001).
 - Sequence numbers start at 001 within each milestone.
-- Agent issues must list exact file paths and specific code changes.
+- Agent issues must list exact file paths and specific changes.
 - Human issues must have numbered steps, not vague instructions.
 - Test cases are written from the user's perspective (given/when/then).
 - Open questions must be resolved (section emptied) before status changes to `ready`.

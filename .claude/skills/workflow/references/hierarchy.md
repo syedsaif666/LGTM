@@ -55,6 +55,33 @@ How the mental model maps to the filesystem, git, and GitHub.
     process-artifacts/                 ← all agent output, mirroring project hierarchy
 ```
 
+## GitHub mapping rationale
+
+### Why GitHub milestones = projects
+
+GitHub milestones group PRs. LGTM projects group issues. The mapping is 1:1.
+Every PR in a project gets attached to the same milestone. When all PRs merge,
+the milestone is complete.
+
+### Why not GitHub Issues?
+
+LGTM "issues" are agent-executable spec files, not conversation threads.
+They live in the filesystem so agents can read them as cold-start specs.
+GitHub Issues don't support structured frontmatter, test cases, or
+dependency DAGs in a machine-readable format.
+
+The PR is the GitHub artifact. The issue file is the spec. They link
+through the PR title.
+
+### The PR title contract
+
+**PR title starts with the issue ID.** That's the link between the filesystem
+and GitHub.
+
+- Issue file: `P2M1-003.md`
+- PR title: `P2M1-003: Draft homepage copy`
+- Branch name: `website-homepage-copy` (descriptive, not required to contain issue ID)
+
 ## Flow
 
 ```

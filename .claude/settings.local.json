@@ -24,6 +24,8 @@
       "WebFetch(domain:medium.com)",
       "WebFetch(domain:next-intl.dev)",
       "WebFetch(domain:agent-browser.dev)",
+      "WebFetch(domain:linear.app)",
+      "WebFetch(domain:api.github.com)",
       "WebSearch",
       "Bash(bash install.sh)",
       "Bash(npx skills *)",
@@ -64,8 +66,7 @@
       "Bash(gh api:*)",
       "Bash(agent-browser:*)",
       "Bash(curl:*)",
-      "mcp__claude_ai_Linear__search_documentation",
-      "WebFetch(domain:linear.app)"
+      "mcp__claude_ai_Linear__search_documentation"
     ],
     "deny": [
       "Bash(sudo *)",

@@ -28,17 +28,17 @@ with its file, line number, and tier (core or optional).
 
 Present questions one category at a time. Confirm each before moving on.
 
-**Category 1 — Core (CLAUDE.md) — cannot skip:**
+**Category 1 — Core (AGENTS.md) — cannot skip:**
 
-- What is this project? (name + one-line goal)
-- What is the tech stack? (framework, language, key dependencies)
-- What are the build/dev commands? (build, dev, lint, test)
+- What is this initiative? (name + one-line goal)
+- What tools and technologies does this use? (languages, frameworks, platforms, services — whatever applies)
+- What are the key commands? (build, generate, validate, deploy — whatever applies)
 
 **Category 2 — Agents — cannot skip:**
 
 - What is the brand voice? (tone, banned words, writing style)
   → Fills `content-editor.md`
-- What is the tech stack and content architecture?
+- What is the technical context and structure?
   → Fills `fullstack-engineer.md`
 
 **Category 3 — Testing (test-strategy) — can skip:**
