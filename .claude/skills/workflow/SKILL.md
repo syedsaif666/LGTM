@@ -28,7 +28,7 @@ GitHub mapping rationale: `references/hierarchy.md`
 
 ### Step 1: Plan
 
-Create `.lgtm/shared/plans/p{N}-{slug}/PLAN.md` using `templates/plan.md`.
+Create `.lgtm/shared/plans/p{N}-{slug}/PLAN.md`.
 
 - Define milestones and their dependency DAG
 - Map file ownership (zero overlap between concurrent issues)
@@ -216,6 +216,6 @@ At each milestone completion:
 ## Resources
 
 - **References:** `references/hierarchy.md`, `references/git-conventions.md`
-- **Templates:** `templates/plan.md`, `templates/issue.md`
+- **Templates:** `templates/issue.md`
 - **Scripts:** `scripts/log-entry.py`, `.claude/scripts/now.py` (global)
 - **Agents:** `.claude/agents/orchestrator.md`, `.claude/agents/issue-writer.md`

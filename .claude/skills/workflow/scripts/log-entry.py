@@ -13,7 +13,7 @@ Usage:
       [--context "Additional context"]
 
 Output:
-    Appends entry to .claude/logs/YYYY-MM-DD/LOG.md
+    Appends entry to .lgtm/ai/logs/YYYY-MM-DD/LOG.md
 """
 
 import argparse
@@ -58,8 +58,8 @@ def main():
 
     now = get_local_time()
 
-    # Folder: .claude/logs/YYYY-MM-DD/
-    log_dir = Path(".claude/logs") / now.strftime("%Y-%m-%d")
+    # Folder: .lgtm/ai/logs/YYYY-MM-DD/
+    log_dir = Path(".lgtm/ai/logs") / now.strftime("%Y-%m-%d")
     log_dir.mkdir(parents=True, exist_ok=True)
 
     log_file = log_dir / "LOG.md"

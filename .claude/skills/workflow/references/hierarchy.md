@@ -29,9 +29,6 @@ How the mental model maps to the filesystem, git, and GitHub.
 
 ```
 .claude/                                 ← agent framework (definitions, skills, rules)
-  logs/
-    YYYY-MM-DD/
-      LOG.md                           ← daily log entries
   agents/
     orchestrator.md                    ← drives the workflow
     issue-writer.md                    ← creates issues from plans
@@ -52,6 +49,9 @@ How the mental model maps to the filesystem, git, and GitHub.
           P2M1-001.md                  ← issue spec (agent or human)
           P2M1-002.md
   ai/
+    logs/
+      YYYY-MM-DD/
+        LOG.md                       ← daily log entries
     process-artifacts/                 ← all agent output, mirroring project hierarchy
 ```
 
