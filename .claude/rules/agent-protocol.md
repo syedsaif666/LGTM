@@ -8,7 +8,7 @@ Every agent receives its task as a self-contained prompt from the orchestrator.
 The prompt includes everything the agent needs — file paths, context, constraints.
 Agents do not read conversation history or assume context from prior sessions.
 
-For code execution agents, the prompt references an issue file
+For execution agents, the prompt references an issue file
 (`.lgtm/shared/plans/{project}/issues/P{N}M{M}-{NNN}.md`) as the spec.
 
 ## Universal rules
@@ -22,7 +22,7 @@ For code execution agents, the prompt references an issue file
 | Write outputs to the path the orchestrator provides | Agent does not decide its own output path |
 | Report completion back to the orchestrator | The orchestrator handles rollup, status, and next steps |
 
-## Agents that modify source code
+## Agents that create branches and commits
 
 Additional rules when an agent creates branches, commits, or pushes:
 
@@ -33,7 +33,7 @@ Additional rules when an agent creates branches, commits, or pushes:
 
 ## Worktrees
 
-Worktrees provide git isolation for parallel code execution.
+Worktrees provide git isolation for parallel execution.
 Each worktree maps 1:1 to an issue being worked:
 
 ```
@@ -44,8 +44,8 @@ Each worktree maps 1:1 to an issue being worked:
 
 | Scenario | Worktree? | Why |
 |----------|-----------|-----|
-| Multiple code agents running in parallel | **Yes** | Each needs its own branch and working directory |
-| Single code agent running sequentially | Optional | Can just switch branches on the main tree |
+| Multiple agents running in parallel | **Yes** | Each needs its own branch and working directory |
+| Single agent running sequentially | Optional | Can just switch branches on the main tree |
 | Issue-writer creating issue files | No | Writes to `.lgtm/shared/plans/`, no branching needed |
 | QA agent reviewing output | No | Read-only, no source modifications |
 | Human issues | No | Human works in their own environment |

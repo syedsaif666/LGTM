@@ -8,7 +8,7 @@ description: >
 
 # Workflow
 
-Orchestrate work from conversation to shipped code using a Linear-inspired
+Orchestrate work from conversation to shipped deliverables using a structured
 hierarchy: Initiative → Project → Milestone → Issue → PR.
 
 ## The hierarchy
@@ -22,7 +22,7 @@ hierarchy: Initiative → Project → Milestone → Issue → PR.
 | Commit | Documents WHY | Git history | — |
 
 Full naming conventions and filesystem layout: `references/hierarchy.md`
-Linear-to-GitHub mapping details: `references/linear-model.md`
+GitHub mapping rationale: `references/hierarchy.md`
 
 ## The workflow
 
@@ -189,7 +189,7 @@ Never force-fit foreign work into the issue convention retroactively.
 | Scenario | Action |
 |----------|--------|
 | Agent produces bad output | Don't merge its PR. Only dependent issues blocked. |
-| Build fails after merging a PR | Revert that single PR on the base branch. |
+| Something breaks after merging a PR | Revert that single PR on the base branch. |
 | Two agents touch the same file | Dependency was missing. Merge one first, rebase the other. |
 | Context compacts mid-issue | Issue files preserve everything needed to continue. |
 | Open questions during execution | Stop. Update the issue file. Resolve before continuing. |
@@ -215,7 +215,7 @@ At each milestone completion:
 
 ## Resources
 
-- **References:** `references/hierarchy.md`, `references/linear-model.md`, `references/git-conventions.md`
+- **References:** `references/hierarchy.md`, `references/git-conventions.md`
 - **Templates:** `templates/plan.md`, `templates/issue.md`
 - **Scripts:** `scripts/log-entry.py`, `.claude/scripts/now.py` (global)
 - **Agents:** `.claude/agents/orchestrator.md`, `.claude/agents/issue-writer.md`

@@ -23,7 +23,7 @@
 
 ## Implementation
 
-> Agent issues: specific code changes, patterns, steps.
+> Agent issues: specific changes, patterns, steps.
 > Human issues: numbered steps with verification.
 
 {Enough detail that an agent with zero context can execute,
@@ -35,7 +35,7 @@ or a human can follow without ambiguity.}
 
 ## Acceptance Criteria
 
-- [ ] Build passes with zero errors
+- [ ] Verification checks pass
 - [ ] {specific verification steps}
 
 ## Open Questions

@@ -14,7 +14,7 @@ LGTM gives your agents a project management layer. Plans become issues. Issues b
 
 ## How it works
 
-Work flows through a hierarchy borrowed from Linear:
+Work flows through a structured hierarchy:
 
 ```
 Initiative (the repo)

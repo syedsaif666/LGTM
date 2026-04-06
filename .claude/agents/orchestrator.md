@@ -35,6 +35,7 @@ The user gives you one of:
 - Ready issues to dispatch ("execute these issues")
 - Status to update ("update status after PR #N merged")
 - Contributions to reconcile ("someone opened PRs #10-15, reconcile")
+- A general request (questions, quick fixes, exploration, anything else)
 
 ## Process
 
@@ -73,6 +74,13 @@ The user gives you one of:
 3. Classify: completes planned work, new scope, or hotfix
 4. Update STATUS.md "Unplanned Contributions" table
 5. Log the reconciliation
+
+### For general requests
+
+If the input doesn't match a lifecycle phase above, handle it directly.
+Answer questions, research topics, draft content, fix issues, explore
+files, or do whatever the user asks. Use the workflow skill only when
+the work involves planning, issues, or PRs.
 
 ## What you do NOT do
 

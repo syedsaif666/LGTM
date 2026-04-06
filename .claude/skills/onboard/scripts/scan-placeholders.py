@@ -1,5 +1,5 @@
 """
-Scan .claude/ for unfilled {CONFIGURE:} placeholders.
+Scan for unfilled {CONFIGURE:} placeholders in .claude/ and AGENTS.md.
 
 Usage:
     python .claude/skills/onboard/scripts/scan-placeholders.py           # full report
@@ -19,6 +19,7 @@ import sys
 from pathlib import Path
 
 CLAUDE_DIR = Path(__file__).resolve().parent.parent.parent.parent
+PROJECT_ROOT = CLAUDE_DIR.parent
 KEYWORD = "{CONFIGURE:"
 SKIP_MARKER = "[Not applicable]"
 
@@ -29,8 +30,9 @@ SKIP_PATHS = [
 ]
 
 # Core files — must be configured, cannot be skipped
+# Paths relative to their scan root (CLAUDE_DIR or PROJECT_ROOT)
 CORE_FILES = [
-    "CLAUDE.md",
+    "AGENTS.md",
 ]
 
 
@@ -41,29 +43,40 @@ def should_skip(rel_path: str) -> bool:
     return False
 
 
+def _scan_file(filepath: Path, rel: str) -> list[dict]:
+    """Scan a single file for {CONFIGURE:} placeholders."""
+    results = []
+    try:
+        lines = filepath.read_text(encoding="utf-8").split("\n")
+    except (UnicodeDecodeError, PermissionError):
+        return results
+    for i, line in enumerate(lines, 1):
+        if KEYWORD in line and SKIP_MARKER not in line:
+            start = line.index(KEYWORD)
+            end = line.index("}", start + len(KEYWORD))
+            text = line[start:end + 1]
+            tier = "core" if rel in CORE_FILES else "optional"
+            results.append({
+                "file": rel,
+                "line": i,
+                "tier": tier,
+                "text": text,
+            })
+    return results
+
+
 def scan() -> list[dict]:
     findings = []
+    # Scan AGENTS.md at the project root
+    agents_md = PROJECT_ROOT / "AGENTS.md"
+    if agents_md.exists():
+        findings.extend(_scan_file(agents_md, "AGENTS.md"))
+    # Scan .claude/ directory
     for md_file in sorted(CLAUDE_DIR.rglob("*.md")):
         rel = str(md_file.relative_to(CLAUDE_DIR)).replace("\\", "/")
         if should_skip(rel):
             continue
-        try:
-            lines = md_file.read_text(encoding="utf-8").split("\n")
-        except (UnicodeDecodeError, PermissionError):
-            continue
-        for i, line in enumerate(lines, 1):
-            if KEYWORD in line and SKIP_MARKER not in line:
-                # Extract the placeholder text
-                start = line.index(KEYWORD)
-                end = line.index("}", start + len(KEYWORD))
-                text = line[start:end + 1]
-                tier = "core" if rel in CORE_FILES else "optional"
-                findings.append({
-                    "file": rel,
-                    "line": i,
-                    "tier": tier,
-                    "text": text,
-                })
+        findings.extend(_scan_file(md_file, rel))
     return findings
 
 
