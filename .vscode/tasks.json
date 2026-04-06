@@ -1,0 +1,90 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "AI - Prime",
+      "type": "shell",
+      "command": "claude --resume",
+      "isBackground": true,
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "icon": {
+        "id": "hubot",
+        "color": "terminal.ansiRed"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "AI - Knight",
+      "type": "shell",
+      "command": "claude --resume",
+      "isBackground": true,
+      "presentation": {
+        "reveal": "silent",
+        "panel": "new"
+      },
+      "icon": {
+        "id": "shield",
+        "color": "terminal.ansiGreen"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Usage",
+      "type": "shell",
+      "command": "claude",
+      "isBackground": true,
+      "presentation": {
+        "reveal": "silent",
+        "panel": "new"
+      },
+      "icon": {
+        "id": "graph",
+        "color": "terminal.ansiBlue"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "AI - Spawn",
+      "type": "shell",
+      "command": "claude",
+      "isBackground": true,
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "icon": {
+        "id": "hubot",
+        "color": "terminal.ansiYellow"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Launch All",
+      "dependsOn": ["AI - Prime", "AI - Knight", "Usage"],
+      "dependsOrder": "parallel",
+      "problemMatcher": []
+    },
+    {
+      "label": "Wait for Extensions",
+      "type": "shell",
+      "command": "Start-Sleep -Seconds 3",
+      "presentation": {
+        "reveal": "silent",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Autostart",
+      "dependsOn": ["Wait for Extensions", "Launch All"],
+      "dependsOrder": "sequence",
+      "runOptions": {
+        "runOn": "folderOpen"
+      },
+      "problemMatcher": []
+    }
+  ]
+}

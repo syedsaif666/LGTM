@@ -1,0 +1,92 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:localhost)",
+      "WebFetch(domain:127.0.0.1)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:code.claude.com)",
+      "WebFetch(domain:stackoverflow.com)",
+      "WebFetch(domain:reddit.com)",
+      "WebFetch(domain:developer.mozilla.org)",
+      "WebFetch(domain:npmjs.com)",
+      "WebFetch(domain:nextjs.org)",
+      "WebFetch(domain:vercel.com)",
+      "WebFetch(domain:tailwindcss.com)",
+      "WebFetch(domain:fumadocs.dev)",
+      "WebFetch(domain:schema.org)",
+      "WebFetch(domain:developers.google.com)",
+      "WebFetch(domain:search.google.com)",
+      "WebFetch(domain:web.dev)",
+      "WebFetch(domain:ahrefs.com)",
+      "WebFetch(domain:semrush.com)",
+      "WebFetch(domain:moz.com)",
+      "WebFetch(domain:medium.com)",
+      "WebFetch(domain:next-intl.dev)",
+      "WebFetch(domain:agent-browser.dev)",
+      "WebSearch",
+      "Bash(bash install.sh)",
+      "Bash(npx skills *)",
+      "Bash(npx prettier *)",
+      "Bash(node *)",
+      "Bash(wc *)",
+      "Bash(git *)",
+      "Bash(ls *)",
+      "Bash(ls*)",
+      "Bash(find *)",
+      "Bash(cat *)",
+      "Bash(head *)",
+      "Bash(tail *)",
+      "Bash(grep *)",
+      "Bash(rg *)",
+      "Bash(echo *)",
+      "Bash(pwd *)",
+      "Bash(which *)",
+      "Bash(sort *)",
+      "Bash(uniq *)",
+      "Bash(cut *)",
+      "Bash(tr *)",
+      "Bash(diff *)",
+      "Bash(stat *)",
+      "Bash(file *)",
+      "Bash(type *)",
+      "Bash(pnpm build)",
+      "Bash(pnpm dev)",
+      "Bash(pnpm start)",
+      "Bash(pnpm lint)",
+      "Bash(pnpm lint:fix)",
+      "Bash(pnpm format)",
+      "mcp__playwright__*",
+      "Skill(humanizer)",
+      "Bash(gh search:*)",
+      "Bash(gh issue:*)",
+      "Bash(gh pr:*)",
+      "Bash(gh api:*)",
+      "Bash(agent-browser:*)",
+      "Bash(curl:*)",
+      "mcp__claude_ai_Linear__search_documentation",
+      "WebFetch(domain:linear.app)"
+    ],
+    "deny": [
+      "Bash(sudo *)",
+      "Bash(chmod *)",
+      "Bash(chown *)"
+    ]
+  },
+  "enabledMcpjsonServers": [
+    "playwright"
+  ],
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python -c \"import sys,json; d=json.load(sys.stdin); cmd=d.get('tool_input',{}).get('command',''); print('{\\\"hookSpecificOutput\\\":{\\\"hookEventName\\\":\\\"PreToolUse\\\",\\\"permissionDecision\\\":\\\"allow\\\"}}') if 'VSCodium' in cmd and '--diff' in cmd else None\""
+          }
+        ]
+      }
+    ]
+  }
+}

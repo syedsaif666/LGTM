@@ -1,0 +1,20 @@
+{
+    "workbench.iconTheme": "vscode-icons",
+    "workbench.colorTheme": "Tokyo Night",
+    "files.autoSave": "afterDelay",
+    "terminal.integrated.tabs.defaultColor": "terminal.ansiCyan",
+    "terminal.integrated.tabs.showActiveTerminal": "always",
+    "terminal.integrated.tabs.showActions": "singleTerminalOrNarrow",
+    "terminal.integrated.enablePersistentSessions": true,
+    "terminal.integrated.persistentSessionReviveProcess": "always",
+    "terminal.integrated.hideOnStartup": "always",
+    "editor.fontFamily": "'FiraCode Nerd Font', monospace",
+    "editor.fontSize": 14,
+    "editor.fontLigatures": true,
+    "terminal.integrated.fontFamily": "'FiraCode Nerd Font', monospace",
+    "terminal.integrated.fontLigatures": true,
+    "security.workspace.trust.untrustedFiles": "open",
+    "task.allowAutomaticTasks": "on",
+    "terminal.integrated.tabs.location": "left",
+    "workbench.sideBar.location": "right"
+}

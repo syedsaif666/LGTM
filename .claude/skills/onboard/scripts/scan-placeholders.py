@@ -1,0 +1,125 @@
+"""
+Scan .claude/ for unfilled {CONFIGURE:} placeholders.
+
+Usage:
+    python .claude/skills/onboard/scripts/scan-placeholders.py           # full report
+    python .claude/skills/onboard/scripts/scan-placeholders.py --check   # one-line (for hooks)
+    python .claude/skills/onboard/scripts/scan-placeholders.py --json    # machine-readable
+
+Exit code 0 = no placeholders found (fully configured)
+Exit code 1 = placeholders found (needs onboarding)
+
+Files in skills/workflow/templates/ are excluded — those are
+templates meant to contain placeholders permanently.
+"""
+
+import argparse
+import json
+import sys
+from pathlib import Path
+
+CLAUDE_DIR = Path(__file__).resolve().parent.parent.parent.parent
+KEYWORD = "{CONFIGURE:"
+SKIP_MARKER = "[Not applicable]"
+
+# Files in these paths are excluded from scanning
+SKIP_PATHS = [
+    "skills/workflow/templates/",
+    "skills/onboard/",
+]
+
+# Core files — must be configured, cannot be skipped
+CORE_FILES = [
+    "CLAUDE.md",
+]
+
+
+def should_skip(rel_path: str) -> bool:
+    for pattern in SKIP_PATHS:
+        if pattern in rel_path:
+            return True
+    return False
+
+
+def scan() -> list[dict]:
+    findings = []
+    for md_file in sorted(CLAUDE_DIR.rglob("*.md")):
+        rel = str(md_file.relative_to(CLAUDE_DIR)).replace("\\", "/")
+        if should_skip(rel):
+            continue
+        try:
+            lines = md_file.read_text(encoding="utf-8").split("\n")
+        except (UnicodeDecodeError, PermissionError):
+            continue
+        for i, line in enumerate(lines, 1):
+            if KEYWORD in line and SKIP_MARKER not in line:
+                # Extract the placeholder text
+                start = line.index(KEYWORD)
+                end = line.index("}", start + len(KEYWORD))
+                text = line[start:end + 1]
+                tier = "core" if rel in CORE_FILES else "optional"
+                findings.append({
+                    "file": rel,
+                    "line": i,
+                    "tier": tier,
+                    "text": text,
+                })
+    return findings
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Scan for {CONFIGURE:} placeholders")
+    parser.add_argument("--check", action="store_true", help="One-line output for hooks")
+    parser.add_argument("--json", action="store_true", help="Machine-readable JSON")
+    args = parser.parse_args()
+
+    findings = scan()
+    core = [f for f in findings if f["tier"] == "core"]
+    optional = [f for f in findings if f["tier"] == "optional"]
+
+    if args.json:
+        print(json.dumps({
+            "total": len(findings),
+            "core": len(core),
+            "optional": len(optional),
+            "findings": findings,
+        }, indent=2))
+        sys.exit(1 if findings else 0)
+
+    if args.check:
+        if core:
+            print(f"Framework not configured ({len(core)} core + {len(optional)} optional). Run /onboard to set up.")
+        elif optional:
+            print(f"{len(optional)} optional placeholders remain. Run /onboard to configure.")
+        # else: silent
+        sys.exit(1 if core else 0)
+
+    # Full report
+    if not findings:
+        print("All placeholders filled. Framework is fully configured.")
+        sys.exit(0)
+
+    # Group by file
+    by_file: dict[str, list[dict]] = {}
+    for f in findings:
+        by_file.setdefault(f["file"], []).append(f)
+
+    print(f"{'=' * 60}")
+    print(f"  PLACEHOLDER SCAN: {len(core)} core, {len(optional)} optional")
+    print(f"  {len(by_file)} files need configuration")
+    print(f"{'=' * 60}")
+
+    for filepath, items in sorted(by_file.items()):
+        tier_label = "CORE" if items[0]["tier"] == "core" else "optional"
+        print(f"\n  [{tier_label}] {filepath}")
+        for item in items:
+            print(f"    L{item['line']:>3}  {item['text']}")
+
+    print(f"\n{'=' * 60}")
+    print(f"  Run /onboard to fill these in.")
+    print(f"{'=' * 60}")
+    sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()
