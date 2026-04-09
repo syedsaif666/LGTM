@@ -18,8 +18,16 @@ import json
 import sys
 from pathlib import Path
 
-CLAUDE_DIR = Path(__file__).resolve().parent.parent.parent.parent
-PROJECT_ROOT = CLAUDE_DIR.parent
+
+def _find_project_root():
+    for p in Path(__file__).resolve().parents:
+        if (p / ".claude").is_dir():
+            return p
+    raise RuntimeError(f"Project root not found from {__file__}")
+
+
+PROJECT_ROOT = _find_project_root()
+CLAUDE_DIR = PROJECT_ROOT / ".claude"
 KEYWORD = "{CONFIGURE:"
 SKIP_MARKER = "[Not applicable]"
 

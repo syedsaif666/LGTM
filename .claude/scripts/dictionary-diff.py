@@ -22,6 +22,17 @@ import argparse
 import json
 import os
 import sys
+from pathlib import Path
+
+
+def _find_project_root():
+    for p in Path(__file__).resolve().parents:
+        if (p / ".claude").is_dir():
+            return p
+    raise RuntimeError(f"Project root not found from {__file__}")
+
+
+PROJECT_ROOT = _find_project_root()
 
 
 def get_all_keys(obj, prefix=""):
@@ -129,7 +140,7 @@ def main():
         report["summary"]["total_type_mismatches"] += len(result.get("type_mismatches", []))
 
     # Write report
-    report_path = args.report or os.path.join(".claude", "reports", "dictionary-diff.json")
+    report_path = args.report or str(PROJECT_ROOT / ".claude" / "reports" / "dictionary-diff.json")
     os.makedirs(os.path.dirname(report_path), exist_ok=True)
     with open(report_path, "w", encoding="utf-8") as f:
         json.dump(report, f, indent=2)
