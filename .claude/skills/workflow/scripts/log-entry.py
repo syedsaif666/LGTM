@@ -21,6 +21,16 @@ from datetime import datetime
 from pathlib import Path
 
 
+def _find_project_root():
+    for p in Path(__file__).resolve().parents:
+        if (p / ".claude").is_dir():
+            return p
+    raise RuntimeError(f"Project root not found from {__file__}")
+
+
+PROJECT_ROOT = _find_project_root()
+
+
 def get_local_time():
     """Get current local time with timezone info."""
     return datetime.now().astimezone()
@@ -59,7 +69,7 @@ def main():
     now = get_local_time()
 
     # Folder: .lgtm/ai/logs/YYYY-MM-DD/
-    log_dir = Path(".lgtm/ai/logs") / now.strftime("%Y-%m-%d")
+    log_dir = PROJECT_ROOT / ".lgtm" / "ai" / "logs" / now.strftime("%Y-%m-%d")
     log_dir.mkdir(parents=True, exist_ok=True)
 
     log_file = log_dir / "LOG.md"

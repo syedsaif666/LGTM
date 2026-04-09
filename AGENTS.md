@@ -1,8 +1,8 @@
-# {CONFIGURE: Project name}
+# {CONFIGURE: Initiative name}
 
-## Initiative
+## Initiative Description
 
-{CONFIGURE: Initiative goal — one-line description}
+{CONFIGURE: Initiative goal — brief description of the overarching goal}
 
 ## Tools & Dependencies
 

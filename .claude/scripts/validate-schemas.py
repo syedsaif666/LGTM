@@ -28,16 +28,23 @@ from urllib.error import URLError
 # Paths
 # ---------------------------------------------------------------------------
 
-SCRIPT_DIR = Path(__file__).resolve().parent
-PROJECT_DIR = SCRIPT_DIR.parent
+def _find_project_root():
+    for p in Path(__file__).resolve().parents:
+        if (p / ".claude").is_dir():
+            return p
+    raise RuntimeError(f"Project root not found from {__file__}")
+
+
+PROJECT_ROOT = _find_project_root()
+
 # Schema.org spec file location.
 # TODO: When bundled into a skill, move to .claude/skills/{skill}/references/schema.org.json
 # Currently lives at .lgtm/shared/resources/schema.org.json
 # Download from: https://schema.org/version/latest/schemaorg-current-https.jsonld
-SPEC_FILE = PROJECT_DIR.parent / ".lgtm" / "shared" / "resources" / "schema.org.json"
+SPEC_FILE = PROJECT_ROOT / ".lgtm" / "shared" / "resources" / "schema.org.json"
 
 # Default build output directory. Override with CLI arg for non-Next.js projects.
-DEFAULT_BUILD_DIR = PROJECT_DIR.parent / ".next" / "server" / "app"
+DEFAULT_BUILD_DIR = PROJECT_ROOT / ".next" / "server" / "app"
 
 # JSON-LD keywords -- not schema.org properties, always valid
 JSONLD_KEYWORDS = {"@context", "@type", "@id", "@graph", "@list", "@set", "@value", "@language"}

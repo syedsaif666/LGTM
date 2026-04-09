@@ -139,6 +139,7 @@ If empty, this issue is ready to execute.}
 
 ## Rules
 
+- Write titles as user-facing outcomes, not implementation verbs: `OAuth callback handles Google auth response` not `Implement OAuth callback handler`.
 - One file per issue. Never combine multiple issues.
 - Issue IDs use the format `P{N}M{M}-{NNN}` (e.g., P4M3-001).
 - Sequence numbers start at 001 within each milestone.

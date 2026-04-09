@@ -15,7 +15,15 @@ from pathlib import Path
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 
-ROOT = Path(__file__).resolve().parents[2]
+
+def _find_project_root():
+    for p in Path(__file__).resolve().parents:
+        if (p / ".claude").is_dir():
+            return p
+    raise RuntimeError(f"Project root not found from {__file__}")
+
+
+ROOT = _find_project_root()
 
 EXCLUDE_DIRS = {
     "node_modules", ".next", ".git", ".vercel", ".old-website-data",
