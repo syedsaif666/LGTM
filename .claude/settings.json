@@ -19,7 +19,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "test -f .claude/.onboarded || python .claude/skills/onboard/scripts/scan-placeholders.py --check 2>/dev/null"
+            "command": "test -f .claude/.onboarded || python .claude/skills/onboard/scripts/scan-placeholders.py --hook"
           }
         ]
       }

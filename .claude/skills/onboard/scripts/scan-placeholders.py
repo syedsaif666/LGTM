@@ -4,10 +4,16 @@ Scan for unfilled {CONFIGURE:} placeholders in .claude/ and AGENTS.md.
 Usage:
     python .claude/skills/onboard/scripts/scan-placeholders.py           # full report
     python .claude/skills/onboard/scripts/scan-placeholders.py --check   # one-line (for hooks)
+    python .claude/skills/onboard/scripts/scan-placeholders.py --hook    # SessionStart hook (JSON, always exit 0)
     python .claude/skills/onboard/scripts/scan-placeholders.py --json    # machine-readable
 
-Exit code 0 = no placeholders found (fully configured)
-Exit code 1 = placeholders found (needs onboarding)
+Exit codes (--check, --json, full report):
+    0 = no placeholders found (fully configured)
+    1 = placeholders found (needs onboarding)
+
+Exit codes (--hook):
+    Always 0. Communicates via structured JSON stdout so Claude Code
+    shows a clean systemMessage instead of a generic "hook error".
 
 Files in skills/workflow/templates/ are excluded — those are
 templates meant to contain placeholders permanently.
@@ -90,7 +96,8 @@ def scan() -> list[dict]:
 
 def main():
     parser = argparse.ArgumentParser(description="Scan for {CONFIGURE:} placeholders")
-    parser.add_argument("--check", action="store_true", help="One-line output for hooks")
+    parser.add_argument("--check", action="store_true", help="One-line output (legacy)")
+    parser.add_argument("--hook", action="store_true", help="SessionStart hook output (JSON, always exit 0)")
     parser.add_argument("--json", action="store_true", help="Machine-readable JSON")
     args = parser.parse_args()
 
@@ -106,6 +113,23 @@ def main():
             "findings": findings,
         }, indent=2))
         sys.exit(1 if findings else 0)
+
+    if args.hook:
+        # SessionStart hook mode — always exit 0, communicate via JSON
+        if not findings:
+            sys.exit(0)
+        if core:
+            msg = f"LGTM: {len(core)} core + {len(optional)} optional placeholders unconfigured. Run /onboard to set up."
+        else:
+            msg = f"LGTM: {len(optional)} optional placeholders remain. Run /onboard to configure."
+        print(json.dumps({
+            "systemMessage": msg,
+            "hookSpecificOutput": {
+                "hookEventName": "SessionStart",
+                "additionalContext": msg,
+            },
+        }))
+        sys.exit(0)
 
     if args.check:
         if core:
