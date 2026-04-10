@@ -1,4 +1,8 @@
 {
+  "attribution": {
+    "commit": "",
+    "pr": ""
+  },
   "permissions": {
     "allow": [
       "WebFetch(domain:localhost)",
@@ -58,36 +62,71 @@
       "Bash(pnpm lint)",
       "Bash(pnpm lint:fix)",
       "Bash(pnpm format)",
-      "mcp__playwright__*",
-      "Skill(humanizer)",
-      "Bash(gh search:*)",
-      "Bash(gh issue:*)",
-      "Bash(gh pr:*)",
-      "Bash(gh api:*)",
-      "Bash(agent-browser:*)",
-      "Bash(curl:*)",
-      "mcp__claude_ai_Linear__search_documentation"
+      "Bash(gh search *)",
+      "Bash(gh issue *)",
+      "Bash(gh pr *)",
+      "Bash(gh api *)",
+      "Bash(agent-browser *)"
     ],
     "deny": [
+      "Read(~/.ssh/**)",
+      "Read(~/.aws/**)",
+      "Read(**/.env*)",
+      "Write(~/.ssh/**)",
+      "Write(~/.aws/**)",
+      "Bash(curl * | bash)",
+      "Bash(ssh *)",
+      "Bash(scp *)",
+      "Bash(nc *)",
       "Bash(sudo *)",
       "Bash(chmod *)",
       "Bash(chown *)"
     ]
   },
-  "enabledMcpjsonServers": [
-    "playwright"
-  ],
   "hooks": {
-    "PreToolUse": [
+    "SessionStart": [
       {
-        "matcher": "Bash",
+        "matcher": "compact",
         "hooks": [
           {
             "type": "command",
-            "command": "python -c \"import sys,json; d=json.load(sys.stdin); cmd=d.get('tool_input',{}).get('command',''); print('{\\\"hookSpecificOutput\\\":{\\\"hookEventName\\\":\\\"PreToolUse\\\",\\\"permissionDecision\\\":\\\"allow\\\"}}') if 'VSCodium' in cmd and '--diff' in cmd else None\""
+            "command": "echo 'Context recovered. Check STATUS.md for current status.'"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "test -f .claude/.onboarded || python .claude/skills/onboard/scripts/scan-placeholders.py --hook"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python scripts/source-guard.py"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python scripts/auto-sync.py"
           }
         ]
       }
     ]
+  },
+  "enabledPlugins": {
+    "skill-creator@claude-plugins-official": true
   }
 }

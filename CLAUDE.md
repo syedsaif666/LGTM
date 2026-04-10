@@ -1,4 +1,4 @@
-@AGENTS.md
+@.claude/AGENTS.md
 
 # Claude Code Configuration
 

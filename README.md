@@ -144,7 +144,7 @@ LGTM uses `{CONFIGURE:}` placeholder tokens in template files. These are designe
 
 ### 1. Drop LGTM into your project
 
-Copy the `.claude/` and `.lgtm/` directories into your project root.
+Copy the root source directories (`agents/`, `skills/`, `scripts/`, `rules/`) and files (`CLAUDE.md`, `AGENTS.md`, `settings.json`) into your project root. Then run `python scripts/sync.py` to populate the `.claude/` runtime instance.
 
 ### 2. Run onboard
 
