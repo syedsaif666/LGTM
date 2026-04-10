@@ -20,7 +20,7 @@ def main():
     except (json.JSONDecodeError, EOFError):
         return
 
-    tool_input = event.get("tool_input", {})
+    tool_input = event.get("tool_input") or {}
     file_path = tool_input.get("file_path", "")
 
     if not file_path:
@@ -28,11 +28,13 @@ def main():
 
     normalized = file_path.replace("\\", "/")
 
-    claude_idx = normalized.find("/.claude/")
-    if claude_idx == -1:
+    if normalized.startswith(".claude/"):
+        relative_to_claude = normalized[len(".claude/"):]
+    elif "/.claude/" in normalized:
+        claude_idx = normalized.find("/.claude/")
+        relative_to_claude = normalized[claude_idx + len("/.claude/"):]
+    else:
         return
-
-    relative_to_claude = normalized[claude_idx + len("/.claude/"):]
 
     basename = os.path.basename(relative_to_claude)
     if basename in ALLOWLIST:

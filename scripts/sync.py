@@ -40,12 +40,24 @@ def should_skip(name):
 def is_protected(relpath, force):
     if force:
         return False
-    return relpath in PROTECTED
+    normalized = relpath.replace("\\", "/")
+    return normalized in {p.replace("\\", "/") for p in PROTECTED}
 
 
 def sync_file(relpath, force=False, dry_run=False):
-    src = os.path.join(ROOT, relpath)
-    dst = os.path.join(INSTANCE, relpath)
+    if os.path.isabs(relpath):
+        print(f"  SKIP (absolute path not allowed): {relpath}")
+        return False
+
+    src = os.path.normpath(os.path.join(ROOT, relpath))
+    dst = os.path.normpath(os.path.join(INSTANCE, relpath))
+
+    if not src.startswith(os.path.normpath(ROOT) + os.sep):
+        print(f"  SKIP (path escapes root): {relpath}")
+        return False
+    if not dst.startswith(os.path.normpath(INSTANCE) + os.sep):
+        print(f"  SKIP (path escapes instance): {relpath}")
+        return False
 
     if not os.path.exists(src):
         print(f"  SKIP (missing source): {relpath}")

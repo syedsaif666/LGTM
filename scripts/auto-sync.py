@@ -33,7 +33,7 @@ def main():
     except (json.JSONDecodeError, EOFError):
         return
 
-    tool_input = event.get("tool_input", {})
+    tool_input = event.get("tool_input") or {}
     file_path = tool_input.get("file_path", "")
 
     if not file_path:
@@ -53,7 +53,7 @@ def main():
     sync_script = os.path.join(ROOT, "scripts", "sync.py")
     try:
         subprocess.run(
-            [sys.executable, sync_script, "--file", relpath, "--force"],
+            [sys.executable, sync_script, "--file", relpath],
             cwd=ROOT,
             capture_output=True,
             timeout=10,
