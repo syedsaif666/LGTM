@@ -7,14 +7,14 @@ LGTM is an orchestration framework for AI agents. Contributions are welcome, whe
 Read these files to understand how the framework is structured:
 
 - `README.md` — what LGTM is and how it works
-- `.claude/skills/workflow/SKILL.md` — the core lifecycle
-- `.claude/rules/agent-protocol.md` — how agents operate
-- `.claude/rules/git-workflow.md` — git constraints
+- `skills/workflow/SKILL.md` — the core lifecycle
+- `rules/agent-protocol.md` — how agents operate
+- `rules/git-workflow.md` — git constraints
 
 ## What to contribute
 
 **Good first contributions:**
-- Fix a bug in a script (`.claude/scripts/`)
+- Fix a bug in a script (`scripts/`)
 - Improve an existing skill's references or examples
 - Add a missing edge case to an agent definition
 - Improve documentation or fix typos
@@ -55,14 +55,16 @@ No conventional commit prefixes unless you want to. No emoji. No `Co-Authored-By
 
 ## Adding a new skill
 
-Skills live in `.claude/skills/{skill-name}/` and follow this structure:
+Skills live in `skills/{skill-name}/` (root source) and follow this structure:
 
 ```
-.claude/skills/{skill-name}/
+skills/{skill-name}/
   ├── SKILL.md           # Required. The skill definition with frontmatter.
   ├── references/        # Optional. Supporting docs the skill references.
   └── templates/         # Optional. File templates the skill uses.
 ```
+
+Edits to root source files are automatically synced to `.claude/` at runtime by `scripts/auto-sync.py`.
 
 The `SKILL.md` file needs YAML frontmatter:
 
@@ -76,7 +78,7 @@ description: >
 
 ## Adding a new agent
 
-Agents live in `.claude/agents/{agent-name}.md` with YAML frontmatter:
+Agents live in `agents/{agent-name}.md` (root source) with YAML frontmatter:
 
 ```yaml
 ---

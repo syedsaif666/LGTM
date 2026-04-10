@@ -14,7 +14,7 @@ INSTANCE = os.path.join(ROOT, ".claude")
 SOURCE_DIRS = ["agents", "skills", "scripts", "rules"]
 SOURCE_FILES = ["AGENTS.md", "settings.json"]
 
-SKIP_PATTERNS = {"__pycache__", ".pyc"}
+SKIP_PATTERNS = {"__pycache__"}
 
 PROTECTED = [
     "AGENTS.md",
@@ -27,10 +27,10 @@ PROTECTED = [
     "settings.json",
 ]
 
-INSTANCE_ONLY = [
-    os.path.join(".claude", "settings.local.json"),
-    os.path.join(".claude", ".onboarded"),
-]
+INSTANCE_ONLY = {
+    "settings.local.json",
+    ".onboarded",
+}
 
 
 def should_skip(name):
@@ -57,6 +57,10 @@ def sync_file(relpath, force=False, dry_run=False):
         return False
     if not dst.startswith(os.path.normpath(INSTANCE) + os.sep):
         print(f"  SKIP (path escapes instance): {relpath}")
+        return False
+
+    if relpath.replace("\\", "/") in INSTANCE_ONLY:
+        print(f"  SKIP (instance-only): {relpath}")
         return False
 
     if not os.path.exists(src):

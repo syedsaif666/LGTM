@@ -58,8 +58,8 @@ def main():
             capture_output=True,
             timeout=10,
         )
-    except Exception:
-        pass
+    except Exception as exc:
+        print(f"auto-sync warning: {exc}", file=sys.stderr)
 
 
 if __name__ == "__main__":

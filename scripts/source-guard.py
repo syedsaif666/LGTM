@@ -36,8 +36,7 @@ def main():
     else:
         return
 
-    basename = os.path.basename(relative_to_claude)
-    if basename in ALLOWLIST:
+    if relative_to_claude in ALLOWLIST:
         return
 
     source_equivalent = relative_to_claude
