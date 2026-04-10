@@ -81,7 +81,7 @@ def sync_dir(dirname, force=False, dry_run=False):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Sync root source → .claude/")
+    parser = argparse.ArgumentParser(description="Sync root source -> .claude/")
     parser.add_argument("--force", action="store_true", help="Overwrite protected files")
     parser.add_argument("--dry-run", action="store_true", help="Show what would sync without writing")
     parser.add_argument("--file", metavar="RELPATH", help="Sync a single file by relative path")
@@ -94,7 +94,7 @@ def main():
         sync_file(args.file, args.force, args.dry_run)
         return
 
-    print("Syncing root source → .claude/")
+    print("Syncing root source -> .claude/")
     total = 0
 
     for f in SOURCE_FILES:
