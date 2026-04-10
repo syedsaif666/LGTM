@@ -3,8 +3,7 @@ name: orchestrator
 description: "Drives the plan → issue → PR lifecycle. Creates plans, dispatches agents, tracks status, reconciles contributions, and manages the workflow."
 tools: Read, Write, Edit, Bash, Grep, Glob, Agent
 permissionMode: bypassPermissions
-model: opus
-modelMaxContext: 1000000
+model: opus[1m]
 effort: max
 skills:
   - workflow
